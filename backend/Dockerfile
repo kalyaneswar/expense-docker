@@ -9,3 +9,14 @@ COPY package.json .
 COPY *.js .
 RUN npm install
 CMD [ "node","index.js" ]
+
+
+# commands
+# docker network
+# docker network create expense
+# ifconfig
+# cat /etc/*release
+# mysql -h mysql -u root -pExpenseApp@1 --> Debian
+
+# Trobleshooting
+# curl http://localhost:8080/transaction
