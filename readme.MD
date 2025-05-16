@@ -1,3 +1,95 @@
+# Expense Application Deployment with Docker
+
+This repository contains Docker configurations for setting up the Expense application. The application consists of three main components: the frontend (served by Nginx), the backend (Node.js application), and the MySQL database. These components are configured and deployed using Docker.
+
+## Overview
+
+The deployment process involves setting up the following:
+
+1. **Frontend**: Configured using Nginx, serving static files.
+2. **Backend**: A Node.js application, deployed and configured as a service.
+3. **Database**: MySQL server setup and schema loading.
+
+## Directory Structure
+. ├── 01-mysql │ 
+
+    ├── Dockerfile │
+    
+     └── scripts │ └── backend.sql 
+
+
+. ├── 02-backend │
+
+      ├── Dockerfile │ ├── package.json │ ├── index.js │ ├── DbConfig.js │ └── TransactionService.js 
+
+
+.  └── 03-frontend 
+
+    ├── Dockerfile ├── expense.conf └── code ├── index.html └── asset-manifest.json
+
+
+## Prerequisites
+
+- Docker installed on your machine.
+- Docker Compose installed on your machine.
+
+## Docker Installation Steps
+
+```sh
+cd docker-expense
+sudo sh docker-install.sh
+```
+
+## Deployment Steps
+
+### Create Network
+```sh
+docker network create expense
+```
+
+### Database Setup
+
+1. MySQL setup Navigate to the `mysql` directory and build the Docker image:
+
+```sh
+cd mysql
+docker build -t mysql:v1.0 .
+```
+
+Run the MySQL container:
+```sh
+docker run -d -p 3306:3306 --name mysql --network expense mysql:v1.0
+```
+
+2. Backend Setup
+Navigate to the 02-backend directory and build the Docker image:
+
+```sh
+cd ../backend
+docker build -t backend:v1.0 .
+```
+
+Run the backend container:
+```sh
+docker run -d -p 8080:8080 --name backend --network expense backend:v1.0
+```
+
+3. Frontend Setup
+Navigate to the 03-frontend directory and build the Docker image:
+
+```sh
+cd ../frontend
+docker build -t frontend:v1.0 .
+```
+
+```sh
+Run the frontend container:
+```sh
+docker run -d -p 8080:8080 --name frontend --network expense frontend:v1.0
+```
+
+
+
 # Docker Best Practices
 
 ## 1. Use Official and Verified Images
